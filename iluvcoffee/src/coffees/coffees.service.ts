@@ -18,12 +18,10 @@ export class CoffeesService {
     return this.coffees;
   }
 
-  findOne(id: string) {
-    const findedCoffee = this.coffees.find(
-      (coffee) => coffee.id.toString() == id,
-    );
-    if (findedCoffee) {
-      return findedCoffee;
+  findOne(id: number) {
+    const existingCoffee = this.coffees.find((coffee) => coffee.id === id);
+    if (existingCoffee) {
+      return existingCoffee;
     } else {
       throw new NotFoundException(`Coffee #${id} not found`);
     }
@@ -33,7 +31,7 @@ export class CoffeesService {
     this.coffees.push(createCoffeeDto.toEntity());
   }
 
-  update(id: string, updateCoffeeDto: UpdateCoffeeDto) {
+  update(id: number, updateCoffeeDto: UpdateCoffeeDto) {
     const existingCoffee = this.findOne(id);
     if (existingCoffee) {
       existingCoffee.name = updateCoffeeDto.name
@@ -50,8 +48,8 @@ export class CoffeesService {
     }
   }
 
-  remove(id: string) {
-    const coffeeIndex = this.coffees.findIndex((coffee) => coffee.id === +id);
+  remove(id: number) {
+    const coffeeIndex = this.coffees.findIndex((coffee) => coffee.id === id);
     if (coffeeIndex >= 0) {
       this.coffees.splice(coffeeIndex, 1);
     }
